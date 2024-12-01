@@ -16,8 +16,9 @@ public class CategoriaService {
 		return repo.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada! Id:" + id));
 	}
 
-	public void removeById(Integer id) {
+	public String removeById(Integer id) {
 		repo.deleteById(id);
+		return "Usuário excluído com sucesso";
 	}
 
 }
