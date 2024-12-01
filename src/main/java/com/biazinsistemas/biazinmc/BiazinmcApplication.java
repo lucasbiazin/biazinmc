@@ -9,5 +9,4 @@ public class BiazinmcApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BiazinmcApplication.class, args);
 	}
-
 }
