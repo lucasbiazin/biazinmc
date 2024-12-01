@@ -1,5 +1,8 @@
 package com.biazinsistemas.biazinmc.services;
 
+import java.util.Optional;
+
+import com.biazinsistemas.biazinmc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,9 @@ public class CategoriaService {
 	private CategoriaRepository repo;
 
 	public Categoria find(Integer id) {
-		return repo.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada! Id:" + id));
+		Optional<Categoria> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName())));
 	}
 
 	public String removeById(Integer id) {

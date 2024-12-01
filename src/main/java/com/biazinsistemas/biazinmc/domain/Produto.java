@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
-@Entity	
+@Entity
 public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,13 +24,10 @@ public class Produto implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double preco;
+	@JsonBackReference
 	@ManyToMany
-	@JoinTable(
-			name ="PRODUTO_CATEGORIA", 
-			joinColumns = @JoinColumn(name = "produto_id"),
-			inverseJoinColumns = @JoinColumn(name = "categoria_id")
-			)
-	private List<Categoria> categorias= new ArrayList<>();
+	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private List<Categoria> categorias = new ArrayList<>();
 
 	public Produto() {
 
@@ -65,9 +64,10 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
-	public List<Categoria> getCategoria() {
-		return categorias;
+	public List<Categoria> getCategorias() {
+	    return categorias;
 	}
+
 
 	public void setCategoria(List<Categoria> categoria) {
 		this.categorias = categoria;
@@ -89,6 +89,5 @@ public class Produto implements Serializable {
 		Produto other = (Produto) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
+
 }
