@@ -1,6 +1,5 @@
 package com.biazinsistemas.biazinmc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,17 +91,22 @@ public class BiazinmcApplication implements CommandLineRunner {
 		cliente4.getTelefones().addAll(Arrays.asList("44999991806", "44999999996"));
 
 		Endereco end1 = new Endereco(null, "Rua das araras", "10", "N/A", "CENTRO", "87240000", cliente1, c1);
-		Endereco end2 = new Endereco(null, "Rua das capivaras", "20", "N/A", "CENTRO", "87240000", cliente2, c2);
-		Endereco end3 = new Endereco(null, "Rua dos cachorro", "30", "N/A", "CENTRO", "87240000", cliente1, c2);
-		Endereco end4 = new Endereco(null, "Rua dos cavalo", "40", "N/A", "CENTRO", "87240000", cliente1, c3);
+		Endereco end2 = new Endereco(null, "Rua das capivaras", "20", "N/A", "CENTRO", "87240000", cliente1, c2);
+		Endereco end3 = new Endereco(null, "Rua dos cachorro", "30", "N/A", "CENTRO", "87240000", cliente2, c2);
+		Endereco end4 = new Endereco(null, "Rua dos cavalo", "40", "N/A", "CENTRO", "87240000", cliente2, c3);
+		Endereco end5 = new Endereco(null, "Rua dos cachorro", "30", "N/A", "CENTRO", "87240000", cliente3, c2);
+		Endereco end6 = new Endereco(null, "Rua dos cavalo", "40", "N/A", "CENTRO", "87240000", cliente3, c3);
+		Endereco end7 = new Endereco(null, "Rua das araras", "10", "N/A", "CENTRO", "87240000", cliente4, c1);
+
+
 
 		cliente1.getEnderecos().addAll(Arrays.asList(end1, end2));
 		cliente2.getEnderecos().addAll(Arrays.asList(end2, end3));
-		cliente3.getEnderecos().addAll(Arrays.asList(end3, end4));
+		cliente3.getEnderecos().addAll(Arrays.asList(end5, end6));
 		cliente4.getEnderecos().addAll(Arrays.asList(end1));
 
 		clienteRepository.saveAll(Arrays.asList(cliente1, cliente2, cliente3, cliente4));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4, end5, end6, end7));
 
 	}
 }
