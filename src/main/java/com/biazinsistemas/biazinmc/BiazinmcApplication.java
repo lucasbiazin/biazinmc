@@ -13,6 +13,7 @@ import com.biazinsistemas.biazinmc.domain.Cidade;
 import com.biazinsistemas.biazinmc.domain.Cliente;
 import com.biazinsistemas.biazinmc.domain.Endereco;
 import com.biazinsistemas.biazinmc.domain.Estado;
+import com.biazinsistemas.biazinmc.domain.ItemPedido;
 import com.biazinsistemas.biazinmc.domain.Pagamento;
 import com.biazinsistemas.biazinmc.domain.PagamentoComBoleto;
 import com.biazinsistemas.biazinmc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.biazinsistemas.biazinmc.repositories.CidadeRepository;
 import com.biazinsistemas.biazinmc.repositories.ClienteRepository;
 import com.biazinsistemas.biazinmc.repositories.EnderecoRepository;
 import com.biazinsistemas.biazinmc.repositories.EstadoRepository;
+import com.biazinsistemas.biazinmc.repositories.ItemPedidoRepository;
 import com.biazinsistemas.biazinmc.repositories.PagamentoRepository;
 import com.biazinsistemas.biazinmc.repositories.PedidoRepository;
 import com.biazinsistemas.biazinmc.repositories.ProdutoRepository;
@@ -49,12 +51,15 @@ public class BiazinmcApplication implements CommandLineRunner {
 
 	@Autowired
 	EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
 	PedidoRepository pedidoRepository;
-	
+
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+
+	@Autowired
+	ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BiazinmcApplication.class, args);
@@ -131,23 +136,41 @@ public class BiazinmcApplication implements CommandLineRunner {
 		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 		Pagamento pagto2 = new PagamentoComCartao(null, EstadoPagamento.PENDENTE, ped2, 3);
 		Pagamento pagto3 = new PagamentoComCartao(null, EstadoPagamento.CANCELADO, ped3, 3);
-		Pagamento pagto4 = new PagamentoComBoleto(null, EstadoPagamento.QUITADO, ped4, sdf.parse("15/12/2024 15:30"),sdf.parse("01/12/2024 16:25"));
-		Pagamento pagto5 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped5, sdf.parse("15/12/2024 17:55"), null);
+		Pagamento pagto4 = new PagamentoComBoleto(null, EstadoPagamento.QUITADO, ped4, sdf.parse("15/12/2024 15:30"),
+				sdf.parse("01/12/2024 16:25"));
+		Pagamento pagto5 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped5, sdf.parse("15/12/2024 17:55"),
+				null);
 
 		ped1.setPagamento(pagto1);
 		ped2.setPagamento(pagto2);
 		ped3.setPagamento(pagto3);
 		ped4.setPagamento(pagto4);
 		ped5.setPagamento(pagto5);
-		
+
 		cliente1.getPedidos().addAll(Arrays.asList(ped1));
 		cliente2.getPedidos().addAll(Arrays.asList(ped2));
 		cliente4.getPedidos().addAll(Arrays.asList(ped3));
 		cliente4.getPedidos().addAll(Arrays.asList(ped4));
 		cliente4.getPedidos().addAll(Arrays.asList(ped5));
-		
-		pedidoRepository.saveAll(Arrays.asList(ped1,ped2,ped3,ped4,ped5));
-		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2,pagto3,pagto4,pagto5));
-		
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3, ped4, ped5));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2, pagto3, pagto4, pagto5));
+
+		ItemPedido itemPed1 = new ItemPedido(ped3, p1, 0.00, 1, 2000.00);
+		ItemPedido itemPed2 = new ItemPedido(ped4, p2, 0.00, 2, 800.00);
+		ItemPedido itemPed3 = new ItemPedido(ped5, p3, 100.00, 1, 80.00);
+
+		ped1.getItensPedido().addAll(Arrays.asList(itemPed1));
+		ped2.getItensPedido().addAll(Arrays.asList(itemPed1));
+		ped3.getItensPedido().addAll(Arrays.asList(itemPed1));
+		ped4.getItensPedido().addAll(Arrays.asList(itemPed2));
+		ped5.getItensPedido().addAll(Arrays.asList(itemPed3));
+
+		p1.getItensPedido().addAll(Arrays.asList(itemPed1));
+		p2.getItensPedido().addAll(Arrays.asList(itemPed2));
+		p3.getItensPedido().addAll(Arrays.asList(itemPed3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(itemPed1, itemPed2, itemPed3));
+
 	}
 }
