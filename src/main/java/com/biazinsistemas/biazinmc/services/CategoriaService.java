@@ -30,4 +30,10 @@ public class CategoriaService {
 		cat.setId(null);
 		return repo.save(cat);
 	}
+
+	public Categoria update(Categoria newCat) {
+		find(newCat.getId());
+		return repo.save(newCat);
+	}
+
 }
