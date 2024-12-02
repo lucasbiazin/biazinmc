@@ -3,9 +3,9 @@ package com.biazinsistemas.biazinmc.resources;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -61,5 +62,18 @@ public class CategoriaResource {
 		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok(listDto);
 	}
+
+	@GetMapping(value = "/page")
+	public ResponseEntity<Page<CategoriaDTO>> listAllPerPage(
+	        @RequestParam(defaultValue = "0") Integer page,
+	        @RequestParam(defaultValue = "24") Integer linesPerPage,
+	        @RequestParam(defaultValue = "nome") String orderBy,
+	        @RequestParam(defaultValue = "ASC") String direction) {
+	    Page<Categoria> list = service.pageAll(page, linesPerPage, orderBy, direction);
+	    Page<CategoriaDTO> listDto = list.map(CategoriaDTO::new);
+	    return ResponseEntity.ok(listDto);
+	}
+
+
 
 }
