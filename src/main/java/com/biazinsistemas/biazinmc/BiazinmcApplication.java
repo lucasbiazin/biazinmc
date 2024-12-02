@@ -1,5 +1,6 @@
 package com.biazinsistemas.biazinmc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.biazinsistemas.biazinmc.domain.Cidade;
 import com.biazinsistemas.biazinmc.domain.Cliente;
 import com.biazinsistemas.biazinmc.domain.Endereco;
 import com.biazinsistemas.biazinmc.domain.Estado;
+import com.biazinsistemas.biazinmc.domain.Pagamento;
+import com.biazinsistemas.biazinmc.domain.PagamentoComBoleto;
+import com.biazinsistemas.biazinmc.domain.PagamentoComCartao;
+import com.biazinsistemas.biazinmc.domain.Pedido;
 import com.biazinsistemas.biazinmc.domain.Produto;
+import com.biazinsistemas.biazinmc.domain.enums.EstadoPagamento;
 import com.biazinsistemas.biazinmc.domain.enums.TipoCliente;
 import com.biazinsistemas.biazinmc.repositories.CategoriaRepository;
 import com.biazinsistemas.biazinmc.repositories.CidadeRepository;
 import com.biazinsistemas.biazinmc.repositories.ClienteRepository;
 import com.biazinsistemas.biazinmc.repositories.EnderecoRepository;
 import com.biazinsistemas.biazinmc.repositories.EstadoRepository;
+import com.biazinsistemas.biazinmc.repositories.PagamentoRepository;
+import com.biazinsistemas.biazinmc.repositories.PedidoRepository;
 import com.biazinsistemas.biazinmc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +49,12 @@ public class BiazinmcApplication implements CommandLineRunner {
 
 	@Autowired
 	EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	PedidoRepository pedidoRepository;
+	
+	@Autowired
+	PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BiazinmcApplication.class, args);
@@ -98,8 +112,6 @@ public class BiazinmcApplication implements CommandLineRunner {
 		Endereco end6 = new Endereco(null, "Rua dos cavalo", "40", "N/A", "CENTRO", "87240000", cliente3, c3);
 		Endereco end7 = new Endereco(null, "Rua das araras", "10", "N/A", "CENTRO", "87240000", cliente4, c1);
 
-
-
 		cliente1.getEnderecos().addAll(Arrays.asList(end1, end2));
 		cliente2.getEnderecos().addAll(Arrays.asList(end2, end3));
 		cliente3.getEnderecos().addAll(Arrays.asList(end5, end6));
@@ -108,5 +120,34 @@ public class BiazinmcApplication implements CommandLineRunner {
 		clienteRepository.saveAll(Arrays.asList(cliente1, cliente2, cliente3, cliente4));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4, end5, end6, end7));
 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("01/12/2024 23:04"), cliente1, end1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/12/2024 22:19"), cliente2, end2);
+		Pedido ped3 = new Pedido(null, sdf.parse("13/12/2024 22:35"), cliente3, end3);
+		Pedido ped4 = new Pedido(null, sdf.parse("14/12/2024 22:45"), cliente4, end3);
+		Pedido ped5 = new Pedido(null, sdf.parse("18/12/2024 22:22"), cliente4, end3);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		Pagamento pagto2 = new PagamentoComCartao(null, EstadoPagamento.PENDENTE, ped2, 3);
+		Pagamento pagto3 = new PagamentoComCartao(null, EstadoPagamento.CANCELADO, ped3, 3);
+		Pagamento pagto4 = new PagamentoComBoleto(null, EstadoPagamento.QUITADO, ped4, sdf.parse("15/12/2024 15:30"),sdf.parse("01/12/2024 16:25"));
+		Pagamento pagto5 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped5, sdf.parse("15/12/2024 17:55"), null);
+
+		ped1.setPagamento(pagto1);
+		ped2.setPagamento(pagto2);
+		ped3.setPagamento(pagto3);
+		ped4.setPagamento(pagto4);
+		ped5.setPagamento(pagto5);
+		
+		cliente1.getPedidos().addAll(Arrays.asList(ped1));
+		cliente2.getPedidos().addAll(Arrays.asList(ped2));
+		cliente4.getPedidos().addAll(Arrays.asList(ped3));
+		cliente4.getPedidos().addAll(Arrays.asList(ped4));
+		cliente4.getPedidos().addAll(Arrays.asList(ped5));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1,ped2,ped3,ped4,ped5));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2,pagto3,pagto4,pagto5));
+		
 	}
 }
