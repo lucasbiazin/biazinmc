@@ -156,21 +156,25 @@ public class BiazinmcApplication implements CommandLineRunner {
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3, ped4, ped5));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2, pagto3, pagto4, pagto5));
 
-		ItemPedido itemPed1 = new ItemPedido(ped3, p1, 0.00, 1, 2000.00);
-		ItemPedido itemPed2 = new ItemPedido(ped4, p2, 0.00, 2, 800.00);
-		ItemPedido itemPed3 = new ItemPedido(ped5, p3, 100.00, 1, 80.00);
+		ItemPedido itemPed1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido itemPed2 = new ItemPedido(ped2, p2, 0.00, 2, 800.00);
+		ItemPedido itemPed3 = new ItemPedido(ped3, p3, 100.00, 1, 80.00);
+		ItemPedido itemPed4 = new ItemPedido(ped4, p2, 0.00, 2, 800.00);
+		ItemPedido itemPed5 = new ItemPedido(ped5, p3, 100.00, 1, 80.00);
+
 
 		ped1.getItensPedido().addAll(Arrays.asList(itemPed1));
-		ped2.getItensPedido().addAll(Arrays.asList(itemPed1));
-		ped3.getItensPedido().addAll(Arrays.asList(itemPed1));
-		ped4.getItensPedido().addAll(Arrays.asList(itemPed2));
-		ped5.getItensPedido().addAll(Arrays.asList(itemPed3));
+		ped2.getItensPedido().addAll(Arrays.asList(itemPed2));
+		ped3.getItensPedido().addAll(Arrays.asList(itemPed3));
+		ped4.getItensPedido().addAll(Arrays.asList(itemPed4));
+		ped5.getItensPedido().addAll(Arrays.asList(itemPed5));
 
 		p1.getItensPedido().addAll(Arrays.asList(itemPed1));
-		p2.getItensPedido().addAll(Arrays.asList(itemPed2));
-		p3.getItensPedido().addAll(Arrays.asList(itemPed3));
+		p2.getItensPedido().addAll(Arrays.asList(itemPed2, itemPed4));
+		p3.getItensPedido().addAll(Arrays.asList(itemPed3, itemPed5));
 
-		itemPedidoRepository.saveAll(Arrays.asList(itemPed1, itemPed2, itemPed3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(itemPed1, itemPed2, itemPed3, itemPed4, itemPed5));
 
 	}
 }
