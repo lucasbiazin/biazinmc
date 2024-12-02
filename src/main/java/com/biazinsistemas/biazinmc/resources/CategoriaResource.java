@@ -1,6 +1,9 @@
 package com.biazinsistemas.biazinmc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.biazinsistemas.biazinmc.domain.Categoria;
+import com.biazinsistemas.biazinmc.dto.CategoriaDTO;
 import com.biazinsistemas.biazinmc.services.CategoriaService;
 
 @RestController
@@ -32,7 +36,7 @@ public class CategoriaResource {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		service.removeById(id);
+		service.remove(id);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -49,6 +53,13 @@ public class CategoriaResource {
 		cat.setId(id);
 		service.update(cat);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> listAll() {
+		List<Categoria> list = service.listAll();
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok(listDto);
 	}
 
 }

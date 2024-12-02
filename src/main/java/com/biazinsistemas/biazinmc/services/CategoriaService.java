@@ -1,5 +1,6 @@
 package com.biazinsistemas.biazinmc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,13 @@ public class CategoriaService {
 				("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName())));
 	}
 
-	public void removeById(Integer id) {
+	public void remove(Integer id) {
 		find(id);
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new com.biazinsistemas.biazinmc.services.exception.DataIntegrityViolationException("Não é possível remover uma categoria que possui produtos!");
+			throw new com.biazinsistemas.biazinmc.services.exception.DataIntegrityViolationException(
+					"Não é possível remover uma categoria que possui produtos!");
 		}
 	}
 
@@ -41,4 +43,7 @@ public class CategoriaService {
 		return repo.save(newCat);
 	}
 
+	public List<Categoria> listAll() {
+		return repo.findAll();
+	}
 }
