@@ -2,12 +2,12 @@ package com.biazinsistemas.biazinmc.services;
 
 import java.util.Optional;
 
-import com.biazinsistemas.biazinmc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.biazinsistemas.biazinmc.domain.Categoria;
 import com.biazinsistemas.biazinmc.repositories.CategoriaRepository;
+import com.biazinsistemas.biazinmc.services.exception.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -26,4 +26,8 @@ public class CategoriaService {
 		return "Usuário excluído com sucesso";
 	}
 
+	public Categoria create(Categoria cat) {
+		cat.setId(null);
+		return repo.save(cat);
+	}
 }
