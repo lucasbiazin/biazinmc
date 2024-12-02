@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.biazinsistemas.biazinmc.domain.Categoria;
+import com.biazinsistemas.biazinmc.dto.CategoriaDTO;
 import com.biazinsistemas.biazinmc.repositories.CategoriaRepository;
 import com.biazinsistemas.biazinmc.services.exception.ObjectNotFoundException;
 
@@ -55,5 +56,10 @@ public class CategoriaService {
 	    PageRequest pageRequest = PageRequest.of(page, linePerPage, Sort.by(sortDirection, orderBy)); 
 	    return repo.findAll(pageRequest); 
 	}
+	
+	public Categoria fromDto(CategoriaDTO dto) {
+		return new Categoria(dto.getId(), dto.getNome());
+	}
+	
 
 }

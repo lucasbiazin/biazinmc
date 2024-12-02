@@ -2,12 +2,18 @@ package com.biazinsistemas.biazinmc.dto;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.biazinsistemas.biazinmc.domain.Categoria;
+
+import jakarta.validation.constraints.NotEmpty;
 
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Length(min=4, max=80, message = "O tamanho deve ser entre 4 e 80 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {
