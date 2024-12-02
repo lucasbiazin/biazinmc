@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.biazinsistemas.biazinmc.services.exception.DataIntegrityViolationException;
 import com.biazinsistemas.biazinmc.services.exception.ObjectNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,4 +24,14 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), exception.getMessage(), dataFormatada);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException exception, HttpServletRequest request) {
+		LocalDateTime agora = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		String dataFormatada = agora.format(formatter);
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), dataFormatada);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
 }

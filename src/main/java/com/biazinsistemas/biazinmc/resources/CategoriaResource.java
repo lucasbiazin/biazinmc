@@ -31,9 +31,9 @@ public class CategoriaResource {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
-		String message = service.removeById(id);
-		return ResponseEntity.ok(message);
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.removeById(id);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping
