@@ -33,9 +33,9 @@ public class CategoriaResource {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<CategoriaDTO> findById(@PathVariable Integer id) {
-	    Categoria obj = service.find(id); 
-	    CategoriaDTO dto = new CategoriaDTO(obj); 
-	    return ResponseEntity.ok(dto);
+		Categoria obj = service.find(id);
+		CategoriaDTO dto = new CategoriaDTO(obj);
+		return ResponseEntity.ok(dto);
 	}
 
 	@DeleteMapping("/{id}")
